@@ -1,8 +1,10 @@
 import { Fragment } from "react";
+import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
 import { OnThisPage } from "@/components/OnThisPage";
-import { caseStudies } from "@/lib/data";
+import { caseStudies, getCaseStudy } from "@/lib/data";
 import styles from "./page.module.css";
 
 const EFFORT_OPACITY = [0.92, 0.66, 0.4, 0.16];
@@ -11,10 +13,34 @@ export function generateStaticParams() {
   return caseStudies.map((study) => ({ slug: study.slug }));
 }
 
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const study = getCaseStudy(slug);
+  if (!study) return { title: "Not found" };
+  const description = study.problem[0];
+  return {
+    title: study.title,
+    description,
+    openGraph: {
+      title: study.title,
+      description,
+      type: "article",
+      ...(study.heroImage ? { images: [{ url: study.heroImage }] } : {}),
+    },
+  };
+}
+
 export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const study = caseStudies.find((s) => s.slug === slug);
+  const study = getCaseStudy(slug);
   if (!study) notFound();
+  const figuresIncomplete = study.outcome.figures.some((figure) => !figure.value);
 
   return (
     <div className="shell">
@@ -46,9 +72,22 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </div>
         </div>
 
-        <div className={styles.shot}>
-          <span className={styles.shotLabel}>Drop image — dashboard, full width</span>
-        </div>
+        {study.heroImage ? (
+          <div className={`${styles.shot} ${styles.shotFilled}`}>
+            <Image
+              src={study.heroImage}
+              alt={`${study.client} — ${study.eyebrow}`}
+              fill
+              sizes="(max-width: 860px) 100vw, 72vw"
+              className={styles.shotImage}
+              priority
+            />
+          </div>
+        ) : (
+          <div className={styles.shot}>
+            <span className={styles.shotLabel}>Drop image — dashboard, full width</span>
+          </div>
+        )}
 
         <div className={`${styles.section} ${styles.sectionFirst}`} id="problem">
           <div className={styles.sectionLabel}>The problem</div>
@@ -110,15 +149,21 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         <div className={styles.section} id="outcome">
           <div className={styles.sectionLabel}>Outcome</div>
           <div>
-            <div className={styles.figures}>
-              {study.outcome.figures.map((figure) => (
-                <div className={styles.figure} key={figure.label}>
-                  <div className={styles.figureValue}>[ figure ]</div>
-                  <div className={styles.figureLabel}>{figure.label}</div>
-                </div>
-              ))}
-            </div>
-            <div className={styles.figuresNote}>Placeholder slots — drop in your real figures</div>
+            {study.outcome.figures.length > 0 && (
+              <div className={styles.figures}>
+                {study.outcome.figures.map((figure) => (
+                  <div className={styles.figure} key={figure.label}>
+                    <div className={figure.value ? `${styles.figureValue} ${styles.figureValueFilled}` : styles.figureValue}>
+                      {figure.value ?? "[ figure ]"}
+                    </div>
+                    <div className={styles.figureLabel}>{figure.label}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {figuresIncomplete && (
+              <div className={styles.figuresNote}>Placeholder slots — drop in your real figures</div>
+            )}
             <p className={styles.outcomeBody}>{study.outcome.body}</p>
           </div>
         </div>

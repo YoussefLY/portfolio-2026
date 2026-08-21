@@ -31,7 +31,7 @@ export function OnThisPage() {
   }, []);
 
   return (
-    <div className={styles.extra}>
+    <nav className={styles.extra} aria-label="On this page">
       <span className="kicker">On this page</span>
       <div style={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 14 }}>
         {SECTIONS.map((section) => {
@@ -40,6 +40,7 @@ export function OnThisPage() {
             <a
               key={section.id}
               href={`#${section.id}`}
+              aria-current={isActive ? "location" : undefined}
               className={isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink}
               style={{ padding: "5px 0", fontSize: 12.5 }}
             >
@@ -49,6 +50,6 @@ export function OnThisPage() {
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }

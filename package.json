@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "tsx --test lib/hrefs.test.ts",
+    "check:deps": "npm audit && npm outdated"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "next": "16.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -19,6 +22,7 @@
     "@types/react-dom": "^19.0.3",
     "eslint": "^9.18.0",
     "eslint-config-next": "16.3.2",
+    "tsx": "^4.23.12",
     "typescript": "^5.7.3"
   }
 }

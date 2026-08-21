@@ -122,6 +122,8 @@
 
 .contractsTable {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .contractsCols {
@@ -243,6 +245,11 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
+}
+
+.ctaButton:hover,
+.ctaButton:focus-visible {
+  opacity: 0.92;
 }
 
 @media (max-width: 860px) {

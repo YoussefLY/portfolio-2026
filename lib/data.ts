@@ -151,6 +151,7 @@ export type CaseStudy = {
   role: string;
   duration: string;
   year: string;
+  heroImage?: string;
   problem: string[];
   approach: {
     body: string;
@@ -161,10 +162,14 @@ export type CaseStudy = {
     bullets: string[];
   };
   outcome: {
-    figures: { label: string }[];
+    figures: { label: string; value?: string }[];
     body: string;
   };
 };
+
+export function getCaseStudy(slug: string) {
+  return caseStudies.find((study) => study.slug === slug);
+}
 
 export const caseStudies: CaseStudy[] = [
   {

@@ -1,7 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { projects, portfolioMix } from "@/lib/data";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "Selected work",
+  description:
+    "Projects I built and still stand behind — procurement systems, AI agents, and systems programming from 2023 to 2026.",
+  openGraph: {
+    title: "Selected work",
+    description:
+      "Projects I built and still stand behind — procurement systems, AI agents, and systems programming from 2023 to 2026.",
+  },
+};
 
 export default function WorkPage() {
   return (

@@ -55,7 +55,8 @@
   text-decoration: none;
 }
 
-a.row:hover {
+a.row:hover,
+a.row:focus-visible {
   background: var(--row-hover);
 }
 

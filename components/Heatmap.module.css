@@ -24,6 +24,8 @@
   gap: 3px;
   margin-top: 8px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .legend {

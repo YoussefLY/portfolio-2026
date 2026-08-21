@@ -1,7 +1,19 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Sidebar } from "@/components/Sidebar";
 import { education, stackByProjects, contractHistory, contractMonths, testimonial } from "@/lib/data";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Youssef Labrahmi — trained at 42, shipping AI-adjacent client work from Rabat. RAG, agents, and voice interfaces that survive handover.",
+  openGraph: {
+    title: "About",
+    description:
+      "Youssef Labrahmi — trained at 42, shipping AI-adjacent client work from Rabat. RAG, agents, and voice interfaces that survive handover.",
+  },
+};
 
 export default function AboutPage() {
   return (
@@ -19,9 +31,6 @@ export default function AboutPage() {
             </a>
             <a className="footerLink" href="https://linkedin.com/in/labrahmiy" target="_blank" rel="noreferrer">
               LinkedIn ↗
-            </a>
-            <a className="footerLink" href="/resume.pdf">
-              Download résumé
             </a>
           </>
         }

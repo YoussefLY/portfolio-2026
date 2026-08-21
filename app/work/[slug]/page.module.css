@@ -48,6 +48,17 @@
   padding: 14px 16px;
 }
 
+.shotFilled {
+  padding: 0;
+  min-height: 320px;
+  overflow: hidden;
+  background-image: none;
+}
+
+.shotImage {
+  object-fit: cover;
+}
+
 .shotLabel {
   font: 400 10px/1 var(--font-mono), ui-monospace, Menlo, monospace;
   letter-spacing: 0.1em;
@@ -176,6 +187,10 @@
   font: 400 26px/1.15 var(--font-mono), ui-monospace, Menlo, monospace;
   letter-spacing: -0.02em;
   color: var(--muted);
+}
+
+.figureValueFilled {
+  color: var(--ink);
 }
 
 .figureLabel {

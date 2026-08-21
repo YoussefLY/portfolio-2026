@@ -45,13 +45,14 @@ export function Sidebar({
         </>
       )}
       {beforeNav}
-      <nav className={styles.nav}>
+      <nav className={styles.nav} aria-label="Primary">
         {NAV.map((item) => {
           const active = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
+              aria-current={active ? "page" : undefined}
               className={active ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink}
             >
               <span className={active ? `${styles.navBar} ${styles.navBarActive}` : styles.navBar} />

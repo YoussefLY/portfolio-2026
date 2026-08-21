@@ -69,6 +69,10 @@
   background: var(--row-hover);
 }
 
+.row:focus-visible {
+  background: var(--row-hover);
+}
+
 .rowN {
   font: 400 11px/1.4 var(--font-mono), ui-monospace, Menlo, monospace;
   color: var(--muted);

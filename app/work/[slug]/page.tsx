@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BackPill } from "@/components/BackPill";
+import { CaseStudyGate } from "@/components/CaseStudyGate";
 import { OnThisPage } from "@/components/OnThisPage";
 import { PageNav } from "@/components/PageNav";
 import { ReadingProgress } from "@/components/ReadingProgress";
@@ -96,6 +97,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       style={accentStyle}
       data-accent={accent ? "" : undefined}
     >
+      <CaseStudyGate key={study.slug} />
       <ReadingProgress />
       <BackPill href="/work" label="All work" />
       <div className={styles.caseInner}>

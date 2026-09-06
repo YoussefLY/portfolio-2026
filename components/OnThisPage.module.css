@@ -21,7 +21,7 @@
   top: 0;
   bottom: 0;
   width: 1px;
-  background: var(--ink);
+  background: var(--case-accent-ink, var(--ink));
   transform: scaleY(0);
   transform-origin: top center;
   opacity: 0.35;
@@ -87,7 +87,11 @@
 }
 
 .linkActive::before {
-  background: var(--ink);
+  background: var(--case-accent-ink, var(--ink));
+}
+
+.linkActive .n {
+  color: var(--case-accent-ink, var(--muted));
 }
 
 .n {

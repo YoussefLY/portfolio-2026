@@ -10,7 +10,7 @@
 
 .bar {
   height: 100%;
-  background: var(--ink);
+  background: var(--progress-color, var(--ink));
   transform-origin: left center;
   transform: scaleX(0);
 }

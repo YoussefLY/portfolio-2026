@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, getSiteUrl } from "@/lib/site";
 import "./globals.css";
@@ -14,6 +14,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-geist-mono",
+  display: "swap",
+});
+
+// Used for the single accented word in each case study title.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: "700",
+  style: "italic",
+  variable: "--font-serif-italic",
   display: "swap",
 });
 
@@ -43,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
       data-scroll-behavior="smooth"
     >
       <body>

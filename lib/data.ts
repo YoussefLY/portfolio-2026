@@ -199,6 +199,8 @@ export type CaseStudy = {
   section: string;
   eyebrow: string;
   title: string;
+  /** One word (or short phrase) of the title set in italic serif and the study's accent colour. */
+  titleAccent?: string;
   client: string;
   role: string;
   duration: string;
@@ -237,6 +239,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 01",
     eyebrow: "Enterprise procurement",
     title: "Retiring the spreadsheet that ran every tender.",
+    titleAccent: "spreadsheet",
     client: "OCP Group",
     role: "Full-stack developer",
     duration: "6 months, solo",
@@ -308,6 +311,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 02",
     eyebrow: "Conversational AI",
     title: "An agent that qualifies leads over SMS and files them properly.",
+    titleAccent: "qualifies",
     client: "Client · 2026",
     role: "Full-stack AI engineer",
     duration: "2 months, solo",
@@ -364,6 +368,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 03",
     eyebrow: "AI infrastructure",
     title: "A secure gateway between LLM agents and internal CRM data.",
+    titleAccent: "gateway",
     client: "Enterprise client",
     role: "Cloud architect & backend engineer",
     duration: "2 months, solo",
@@ -421,6 +426,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 04",
     eyebrow: "Content automation",
     title: "Turning PowerPoint designs into components a model can fill.",
+    titleAccent: "designs",
     client: "Client · 2026",
     role: "Full-stack & AI engineer",
     duration: "2 months, solo",
@@ -477,6 +483,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 05",
     eyebrow: "Creator tools",
     title: "Bringing a frontier image model into a creator product.",
+    titleAccent: "frontier",
     client: "1of10",
     role: "Software engineer",
     duration: "3 months, solo",
@@ -533,6 +540,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 06",
     eyebrow: "SaaS platform",
     title: "A rental operations platform, built from zero as CTO.",
+    titleAccent: "from zero",
     client: "Carey",
     role: "CTO, two-person team",
     duration: "4 months",
@@ -590,6 +598,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 07",
     eyebrow: "REST API",
     title: "A bookstore API with the reporting built in.",
+    titleAccent: "reporting",
     client: "Portfolio project",
     role: "Full-stack developer",
     duration: "1 month, solo",
@@ -638,6 +647,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 08",
     eyebrow: "Systems programming",
     title: "An HTTP/1.1 server written from the socket up.",
+    titleAccent: "socket",
     client: "42 Network · open source",
     role: "Pair project",
     duration: "2 months, pair",
@@ -691,6 +701,7 @@ export const caseStudies: CaseStudy[] = [
     section: "02 — Case 09",
     eyebrow: "Graphics",
     title: "A raycasting renderer in C, one pixel at a time.",
+    titleAccent: "pixel",
     client: "42 Network",
     role: "Solo project",
     duration: "1 month, solo",

@@ -11,3 +11,7 @@ next-env.d.ts
 
 # design reference screenshots (personal profile data, not used by the site)
 /images
+*.tsbuildinfo
+
+# personal editor settings
+.cursor/

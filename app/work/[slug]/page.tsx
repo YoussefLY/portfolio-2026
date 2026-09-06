@@ -1,9 +1,14 @@
-import { Fragment } from "react";
+import { Fragment, ViewTransition } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Sidebar } from "@/components/Sidebar";
+import { BackPill } from "@/components/BackPill";
 import { OnThisPage } from "@/components/OnThisPage";
+import { PageNav } from "@/components/PageNav";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { SectionReveal } from "@/components/SectionReveal";
+import { ShotReveal } from "@/components/ShotReveal";
 import { caseStudies, getCaseStudy } from "@/lib/data";
 import styles from "./page.module.css";
 
@@ -40,134 +45,260 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
   const { slug } = await params;
   const study = getCaseStudy(slug);
   if (!study) notFound();
-  const figuresIncomplete = study.outcome.figures.some((figure) => !figure.value);
+
+  const index = caseStudies.indexOf(study);
+  const next = caseStudies.length > 1 ? caseStudies[(index + 1) % caseStudies.length] : null;
+  const figures = study.outcome.figures.filter((figure) => figure.value);
+  const weeks = study.approach.weeks ?? 0;
+  const phases = study.approach.phases ?? [];
+  const ticks = weeks > 0 ? Array.from({ length: Math.floor(weeks / 4) + 1 }, (_, i) => i * 4) : [];
+
+  const meta = [
+    { label: "Client", value: study.client },
+    { label: "Role", value: study.role },
+    { label: "Duration", value: study.duration },
+    { label: "Year", value: study.year },
+  ];
 
   return (
-    <div className="shell">
-      <Sidebar afterNav={<OnThisPage />} />
-      <main className="main">
-        <div className="page-head">
-          <span className="kicker">{study.section}</span>
-          <span className="kicker">{study.eyebrow}</span>
-        </div>
+    <main className={`main page ${styles.caseMain}`}>
+      <ReadingProgress />
+      <BackPill href="/work" label="All work" />
 
-        <h2 className={styles.title}>{study.title}</h2>
+      <div className="page-head">
+        <span className="kicker">{study.section}</span>
+        <span className="kicker">{study.eyebrow}</span>
+      </div>
 
-        <div className={styles.meta}>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Client</div>
-            <div className={styles.metaValue}>{study.client}</div>
-          </div>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Role</div>
-            <div className={styles.metaValue}>{study.role}</div>
-          </div>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Duration</div>
-            <div className={styles.metaValue}>{study.duration}</div>
-          </div>
-          <div className={styles.metaCell}>
-            <div className={styles.metaLabel}>Year</div>
-            <div className={styles.metaValue}>{study.year}</div>
-          </div>
-        </div>
-
-        {study.heroImage ? (
-          <div className={`${styles.shot} ${styles.shotFilled}`}>
-            <Image
-              src={study.heroImage}
-              alt={`${study.client} — ${study.eyebrow}`}
-              fill
-              sizes="(max-width: 860px) 100vw, 72vw"
-              className={styles.shotImage}
-              priority
-            />
-          </div>
-        ) : (
-          <div className={styles.shot}>
-            <span className={styles.shotLabel}>Drop image — dashboard, full width</span>
-          </div>
-        )}
-
-        <div className={`${styles.section} ${styles.sectionFirst}`} id="problem">
-          <div className={styles.sectionLabel}>The problem</div>
-          <div className={styles.body}>
-            {study.problem.map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.section} id="approach">
-          <div className={styles.sectionLabel}>Approach</div>
-          <div>
-            <div className={styles.body}>
-              <p>{study.approach.body}</p>
-            </div>
-            <div className={styles.effortHead}>Where the effort went · approximate, self-reported</div>
-            <div className={styles.effortBar}>
-              {study.approach.effort.map((segment, i) => (
-                <div
-                  key={segment.label}
-                  style={{ width: `${segment.value}%`, background: `rgba(17,17,16,${EFFORT_OPACITY[i]})` }}
-                />
-              ))}
-            </div>
-            <div className={styles.effortLegend}>
-              {study.approach.effort.map((segment) => (
-                <span key={segment.label}>
-                  {segment.label} {segment.value}
+      <header className={styles.hero}>
+        <div className={styles.heroText}>
+          <Link href="/work" className={`text-link ${styles.back}`} data-muted="">
+            <span aria-hidden="true">←</span> All work
+          </Link>
+          <h1 className="page-title" data-size="display">
+            <ViewTransition name={`project-${study.slug}`} share="morph" default="none">
+              <span className={styles.titleInner}>{study.title}</span>
+            </ViewTransition>
+          </h1>
+          {study.stack && (
+            <div className={styles.chips} aria-label="Stack">
+              {study.stack.map((item) => (
+                <span className={styles.chip} key={item}>
+                  {item}
                 </span>
               ))}
             </div>
-          </div>
+          )}
+          <dl className={styles.meta}>
+            {meta.map((cell) => (
+              <div className={styles.metaCell} key={cell.label}>
+                <dt className={styles.metaLabel}>{cell.label}</dt>
+                <dd className={styles.metaValue}>{cell.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        <div className={styles.section} id="architecture">
-          <div className={styles.sectionLabel}>Architecture</div>
-          <div>
-            <div className={styles.flow}>
-              {study.architecture.steps.map((step, i) => (
-                <Fragment key={step.label}>
-                  {i > 0 && <span className={styles.flowArrow}>→</span>}
-                  <div className={step.dashed ? `${styles.flowStep} ${styles.flowStepDashed}` : styles.flowStep}>
-                    {step.label}
-                    <br />
-                    <span className={styles.flowDetail}>{step.detail}</span>
-                  </div>
-                </Fragment>
-              ))}
+        <figure className={styles.figure} data-filled={study.heroImage ? "" : undefined}>
+          {study.heroImage ? (
+            <ShotReveal>
+              <ViewTransition name={`project-image-${study.slug}`} share="morph" default="none">
+                <div className={`${styles.shot} ${styles.shotFilled}`}>
+                  <Image
+                    src={study.heroImage}
+                    alt={`${study.client} — ${study.eyebrow}`}
+                    fill
+                    sizes="(max-width: 1100px) 100vw, 760px"
+                    quality={90}
+                    className={styles.shotImage}
+                    priority
+                  />
+                </div>
+              </ViewTransition>
+            </ShotReveal>
+          ) : (
+            <div className={styles.shot}>
+              <span className={styles.shotLabel}>Fig. 01 · pending</span>
+              <span className={styles.shotLabel}>16:10</span>
             </div>
-            <ul className={styles.bullets}>
-              {study.architecture.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+          )}
+        </figure>
+      </header>
 
-        <div className={styles.section} id="outcome">
-          <div className={styles.sectionLabel}>Outcome</div>
-          <div>
-            {study.outcome.figures.length > 0 && (
-              <div className={styles.figures}>
-                {study.outcome.figures.map((figure) => (
-                  <div className={styles.figure} key={figure.label}>
-                    <div className={figure.value ? `${styles.figureValue} ${styles.figureValueFilled}` : styles.figureValue}>
-                      {figure.value ?? "[ figure ]"}
-                    </div>
-                    <div className={styles.figureLabel}>{figure.label}</div>
-                  </div>
+      <div className={styles.layout}>
+        <aside className={styles.rail}>
+          <OnThisPage />
+        </aside>
+
+        <SectionReveal>
+          <div className={styles.content}>
+            {/* 01 — Problem */}
+            <section className={styles.section} id="problem" data-section aria-labelledby="problem-label">
+              <div className="section-head">
+                <h2 id="problem-label" className="kicker">
+                  01 · The problem
+                </h2>
+                <span className="kicker">Before</span>
+              </div>
+              <div className={`prose ${styles.prose}`}>
+                {study.problem.map((p) => (
+                  <p key={p}>{p}</p>
                 ))}
               </div>
-            )}
-            {figuresIncomplete && (
-              <div className={styles.figuresNote}>Placeholder slots — drop in your real figures</div>
-            )}
-            <p className={styles.outcomeBody}>{study.outcome.body}</p>
+              {study.painPoints && (
+                <div className={styles.pains}>
+                  {study.painPoints.map((pain, i) => (
+                    <div className={styles.pain} key={pain.label}>
+                      <span className={styles.painN}>{String(i + 1).padStart(2, "0")}</span>
+                      <span className={styles.painLabel}>{pain.label}</span>
+                      <span className={styles.painDetail}>{pain.detail}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {/* 02 — Approach */}
+            <section className={styles.section} id="approach" data-section aria-labelledby="approach-label">
+              <div className="section-head">
+                <h2 id="approach-label" className="kicker">
+                  02 · Approach
+                </h2>
+                {weeks > 0 && <span className="kicker">{weeks} weeks</span>}
+              </div>
+              <div className={`prose ${styles.prose}`}>
+                <p>{study.approach.body}</p>
+              </div>
+
+              {phases.length > 0 && weeks > 0 && (
+                <div className={styles.timeline} role="img" aria-label="Project phases on a timeline">
+                  <div className={styles.timelineHead}>
+                    <span />
+                    <span className={styles.ticks}>
+                      {ticks.map((tick) => (
+                        <span key={tick} style={{ left: `${(tick / weeks) * 100}%` }}>
+                          W{tick}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  {phases.map((phase) => (
+                    <div className={styles.phase} key={phase.label}>
+                      <span className={styles.phaseLabel}>{phase.label}</span>
+                      <span className={styles.phaseTrack}>
+                        {ticks.map((tick) => (
+                          <span
+                            key={tick}
+                            className={styles.gridline}
+                            style={{ left: `${(tick / weeks) * 100}%` }}
+                          />
+                        ))}
+                        <span
+                          className={styles.phaseBar}
+                          data-bar
+                          style={{
+                            left: `${(phase.start / weeks) * 100}%`,
+                            width: `${((phase.end - phase.start) / weeks) * 100}%`,
+                          }}
+                        />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className={styles.effortHead}>Where the effort went · approximate, self-reported</div>
+              <div className={styles.effortBar}>
+                {study.approach.effort.map((segment, i) => (
+                  <div
+                    key={segment.label}
+                    data-bar
+                    style={{ width: `${segment.value}%`, background: `rgba(17,17,16,${EFFORT_OPACITY[i]})` }}
+                  />
+                ))}
+              </div>
+              <div className={styles.effortLegend}>
+                {study.approach.effort.map((segment) => (
+                  <span key={segment.label} style={{ flexBasis: `${segment.value}%` }}>
+                    <span className={styles.effortValue}>{segment.value}%</span>
+                    {segment.label}
+                  </span>
+                ))}
+              </div>
+            </section>
+
+            {/* 03 — Architecture */}
+            <section
+              className={styles.section}
+              id="architecture"
+              data-section
+              aria-labelledby="architecture-label"
+            >
+              <div className="section-head">
+                <h2 id="architecture-label" className="kicker">
+                  03 · Architecture
+                </h2>
+                <span className="kicker">Request path</span>
+              </div>
+              <div className={styles.flow}>
+                {study.architecture.steps.map((step, i) => (
+                  <Fragment key={step.label}>
+                    {i > 0 && (
+                      <span className={`${styles.connector} flowArrow`} aria-hidden="true">
+                        <span className={styles.connectorLine} />
+                        <span className={styles.connectorHead} />
+                      </span>
+                    )}
+                    <div
+                      className={
+                        step.dashed ? `${styles.node} ${styles.nodeDashed} flowStep` : `${styles.node} flowStep`
+                      }
+                    >
+                      <span className={styles.nodeN}>{String(i + 1).padStart(2, "0")}</span>
+                      <span className={styles.nodeLabel}>{step.label}</span>
+                      <span className={styles.nodeDetail}>{step.detail}</span>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+              <ul className={styles.bullets}>
+                {study.architecture.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </section>
+
+            {/* 04 — Outcome */}
+            <section className={styles.section} id="outcome" data-section aria-labelledby="outcome-label">
+              <div className="section-head">
+                <h2 id="outcome-label" className="kicker">
+                  04 · Outcome
+                </h2>
+                <span className="kicker">After</span>
+              </div>
+              {figures.length > 0 && (
+                <div className={`stat-grid ${styles.figures}`}>
+                  {figures.map((figure) => (
+                    <div className="stat" key={figure.label}>
+                      <div className="stat-value">{figure.value}</div>
+                      <div className="stat-label">{figure.label}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className={`prose ${styles.prose}`}>
+                <p>{study.outcome.body}</p>
+              </div>
+            </section>
           </div>
-        </div>
-      </main>
-    </div>
+        </SectionReveal>
+      </div>
+
+      {next ? (
+        <PageNav href={`/work/${next.slug}`} kicker="Next case study" label={next.client} title={next.title} />
+      ) : (
+        <PageNav href="/work" kicker="Back to" label="Work" title="All six projects, 2023 to 2026." />
+      )}
+    </main>
   );
 }

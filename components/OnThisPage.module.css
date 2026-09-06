@@ -1,0 +1,140 @@
+.toc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.links {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--border);
+}
+
+/* Reading progress along the rail, driven by the content's own view timeline. */
+.progress {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--ink);
+  transform: scaleY(0);
+  transform-origin: top center;
+  opacity: 0.35;
+}
+
+@supports (animation-timeline: --x) {
+  .progress {
+    animation: railProgress linear both;
+    animation-timeline: --case-content;
+    animation-range: cover 0% cover 100%;
+  }
+}
+
+@keyframes railProgress {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0 8px 14px;
+  font: 400 13px/1.3 var(--font-sans);
+  color: var(--muted);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.link::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: transparent;
+  transition: background var(--dur) var(--ease);
+}
+
+.link[data-done] {
+  color: var(--ink-soft);
+}
+
+@media (hover: hover) {
+  .link:hover {
+    color: var(--ink);
+  }
+
+  .link:hover::before {
+    background: var(--border);
+  }
+}
+
+.linkActive {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.linkActive::before {
+  background: var(--ink);
+}
+
+.n {
+  font: 400 9.5px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+@media (max-width: 1100px) {
+  .toc {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .toc::-webkit-scrollbar {
+    display: none;
+  }
+
+  .head {
+    display: none;
+  }
+
+  .links {
+    flex-direction: row;
+    gap: var(--space-3);
+    border-left: none;
+  }
+
+  .link {
+    padding: 14px 0;
+    white-space: nowrap;
+  }
+
+  .link::before {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: auto;
+    height: 2px;
+  }
+
+  .progress {
+    display: none;
+  }
+}

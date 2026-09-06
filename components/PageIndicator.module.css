@@ -1,0 +1,107 @@
+.rail {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform: translateY(-50%);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 20px;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+/* Label reads vertically beside the tick so the rail stays inside the page gutter. */
+.label {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  font: 500 10px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.n {
+  display: none;
+}
+
+.tick {
+  order: 3;
+  display: block;
+  width: 14px;
+  height: 1.5px;
+  background: var(--border);
+  transition: width var(--dur-med) var(--ease), background var(--dur) var(--ease);
+}
+
+@media (hover: hover) {
+  .item:hover .label {
+    opacity: 1;
+  }
+
+  .item:hover .tick {
+    background: var(--ink);
+  }
+}
+
+:global(html[data-page="01"]) .item[data-n="01"],
+:global(html[data-page="02"]) .item[data-n="02"],
+:global(html[data-page="03"]) .item[data-n="03"] {
+  color: var(--ink);
+}
+
+:global(html[data-page="01"]) .item[data-n="01"] .tick,
+:global(html[data-page="02"]) .item[data-n="02"] .tick,
+:global(html[data-page="03"]) .item[data-n="03"] .tick {
+  width: 28px;
+  background: var(--ink);
+}
+
+:global(html[data-page="01"]) .item[data-n="01"] .label,
+:global(html[data-page="02"]) .item[data-n="02"] .label,
+:global(html[data-page="03"]) .item[data-n="03"] .label {
+  opacity: 1;
+}
+
+@media (max-width: 860px) {
+  .rail {
+    right: 10px;
+    gap: 12px;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .tick {
+    width: 10px;
+  }
+
+  :global(html[data-page="01"]) .item[data-n="01"] .tick,
+  :global(html[data-page="02"]) .item[data-n="02"] .tick,
+  :global(html[data-page="03"]) .item[data-n="03"] .tick {
+    width: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label,
+  .tick,
+  .n {
+    transition: none;
+  }
+}

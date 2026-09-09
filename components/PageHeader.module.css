@@ -24,6 +24,21 @@
   padding-bottom: 0.35em;
 }
 
+/* The title's own arrival is LineReveal's job; this is the rest of the hero
+   catching up. CSS, not GSAP, so it starts at first paint and needs no hydration. */
+@media (prefers-reduced-motion: no-preference) {
+  .right {
+    animation: header-enter 420ms var(--ease) 80ms both;
+  }
+}
+
+@keyframes header-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 .backArrow {
   display: inline-block;
   transition: transform var(--dur-med) var(--ease);

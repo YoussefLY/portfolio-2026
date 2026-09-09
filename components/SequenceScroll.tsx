@@ -32,31 +32,44 @@ export function SequenceScroll({ initial }: { initial: MainPageHref }) {
     landed.current = window.scrollY;
   };
 
-  // Full document load: jump before the page becomes visible (PageEnter keeps it
-  // hidden until its own layout effect, which runs after this one). Reloads and
-  // back/forward keep the browser's restored position.
+  // Full document load: the inline script in Sequence already jumped during parse, so
+  // this only covers client navigations and re-runs. Reloads and back/forward keep the
+  // browser's restored position.
   useLayoutEffect(() => {
     fullLoad.current = !session.hydrated;
-    if (!fullLoad.current || initial === "/") return;
+    // Whatever happens below, release the paint before the browser draws this commit.
+    const release = () => document.querySelector("[data-jump-pending]")?.removeAttribute("data-jump-pending");
+    if (!fullLoad.current || initial === "/") return release();
     const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
-    if (nav && nav.type !== "navigate") return;
+    if (nav && nav.type !== "navigate") return release();
     const page = MAIN_PAGES.find((p) => p.href === initial);
     if (page) jump(page.id);
+    release();
+    return;
   }, [initial]);
 
   useEffect(() => {
     const page = MAIN_PAGES.find((p) => p.href === initial);
     const timers: number[] = [];
+    const cleanups: (() => void)[] = [];
     if (page && initial !== "/") {
       // Client-side navigation: runs after the router's own scroll-to-top.
       if (!fullLoad.current) jump(page.id);
-      // Fonts and text splitting can shift layout after the jump; re-align
-      // while the reader has not scrolled away from where we put them.
+      // Fonts and text splitting shift layout after the jump, and the browser's scroll
+      // anchoring compensates by moving us — which a position check reads as the reader
+      // scrolling away. Only real input means they have taken over.
+      let moved = landed.current < 0;
+      const takeOver = () => {
+        moved = true;
+      };
+      const inputs = ["wheel", "touchstart", "keydown"] as const;
+      inputs.forEach((type) => window.addEventListener(type, takeOver, { passive: true, once: true }));
       const realign = () => {
-        if (landed.current >= 0 && Math.abs(window.scrollY - landed.current) < 2) jump(page.id);
+        if (!moved) jump(page.id);
       };
       document.fonts?.ready.then(realign);
       timers.push(window.setTimeout(realign, 350), window.setTimeout(realign, 900));
+      cleanups.push(() => inputs.forEach((type) => window.removeEventListener(type, takeOver)));
     }
 
     let current: string = initial;
@@ -108,6 +121,7 @@ export function SequenceScroll({ initial }: { initial: MainPageHref }) {
 
     return () => {
       timers.forEach((id) => window.clearTimeout(id));
+      cleanups.forEach((fn) => fn());
       observer.disconnect();
       document.removeEventListener("click", onClick, true);
       delete document.documentElement.dataset.page;

@@ -107,6 +107,18 @@ ol {
   padding: 0 var(--gutter);
 }
 
+/* A direct load of /work or /about has to hydrate before it can measure where to
+   jump. Hold the paint until SequenceScroll has jumped — never on `/`. */
+.main[data-jump-pending] {
+  opacity: 0;
+}
+
+@media (scripting: none) {
+  .main[data-jump-pending] {
+    opacity: 1;
+  }
+}
+
 /* One main page inside the continuous sequence. */
 .page {
   padding-top: var(--space-5);

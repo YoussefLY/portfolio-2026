@@ -4,15 +4,3 @@
   display: flex;
   flex-direction: column;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .enter:not([data-enter-ready]) {
-    opacity: 0;
-  }
-}
-
-@media (scripting: none) {
-  .enter {
-    opacity: 1;
-  }
-}

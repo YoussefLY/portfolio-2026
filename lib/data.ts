@@ -594,9 +594,9 @@ export const caseStudies: CaseStudy[] = [
     },
     outcome: {
       figures: [
-        { label: "Time to close the quarter, before → after" },
-        { label: "Seats live at first rollout" },
-        { label: "Incidents since handover" },
+        { label: "Time to close the quarter, before → after", value: "1 week → 1 day" }, // PLACEHOLDER
+        { label: "Seats live at first rollout", value: "120" }, // PLACEHOLDER
+        { label: "Incidents since handover", value: "0" }, // PLACEHOLDER
       ],
       body: "Handed over with runbooks and a two-week pairing period. Their internal team has been shipping on it since, without me.",
     },
@@ -654,7 +654,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Time to first reply, before → after", value: "4 hours → instant" }, // PLACEHOLDER
+        { label: "Leads qualified without a human", value: "80%" }, // PLACEHOLDER
+        { label: "CRM records needing cleanup", value: "0" }, // PLACEHOLDER
+      ],
       body: "Leads now get a reply immediately and land in the CRM as complete records. The client owns the script and the field mapping, so they can change the questions without touching the code.",
     },
   },
@@ -712,7 +716,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Tools exposed through the gateway", value: "14" }, // PLACEHOLDER
+        { label: "Security review rounds to sign-off", value: "1" }, // PLACEHOLDER
+        { label: "Internal tools since pointed at it", value: "3" }, // PLACEHOLDER
+      ],
       body: "The client's agents answer from live CRM data through a boundary their security team signed off on. Because it speaks MCP, they have since pointed other tools at the same gateway.",
     },
   },
@@ -769,7 +777,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "New template, design → live", value: "2 weeks → 1 day" }, // PLACEHOLDER
+        { label: "Templates converted at handover", value: "18" }, // PLACEHOLDER
+        { label: "Client rating", value: "5.0" }, // PLACEHOLDER
+      ],
       body: "New designs go from PPTX to usable templates without an engineer in the loop, and generated content cites the customer's own material. The client rated the engagement 5.0.",
     },
   },
@@ -826,7 +838,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Time to generate a thumbnail", value: "under 30s" }, // PLACEHOLDER
+        { label: "Creators with access at launch", value: "1,200" }, // PLACEHOLDER
+        { label: "Generations in the first month", value: "20k" }, // PLACEHOLDER
+      ],
       body: "Creators generate and download thumbnails without leaving the product. The integration is in production for 1of10's top-tier users.",
     },
   },
@@ -884,7 +900,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Languages live at launch", value: "3" }, // PLACEHOLDER
+        { label: "Vehicles under management", value: "60" }, // PLACEHOLDER
+        { label: "People operating the platform", value: "2" }, // PLACEHOLDER
+      ],
       body: "Carey runs bookings, fleet and drivers from one platform in three languages. Two people built it and two people operate it.",
     },
   },
@@ -933,7 +953,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Documented endpoints", value: "24" }, // PLACEHOLDER
+        { label: "Test coverage", value: "82%" }, // PLACEHOLDER
+        { label: "Sales reports built in", value: "3" }, // PLACEHOLDER
+      ],
       body: "A complete, documented API and front end that handles inventory and orders and reports on what actually sells.",
     },
   },
@@ -987,7 +1011,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Concurrent connections held", value: "1,000" }, // PLACEHOLDER
+        { label: "External libraries used", value: "0" }, // PLACEHOLDER
+        { label: "Stress test pass rate", value: "100%" }, // PLACEHOLDER
+      ],
       body: "A server that real browsers talk to happily, and a lasting understanding of what frameworks hide.",
     },
   },
@@ -1038,7 +1066,11 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     outcome: {
-      figures: [],
+      figures: [
+        { label: "Frame rate at 1080p", value: "60 fps" }, // PLACEHOLDER
+        { label: "Libraries beyond MLX", value: "0" }, // PLACEHOLDER
+        { label: "Map validation cases handled", value: "12" }, // PLACEHOLDER
+      ],
       body: "A smooth, textured first-person view of any valid map, and a first real taste of graphics math.",
     },
   },

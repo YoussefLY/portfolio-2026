@@ -139,7 +139,7 @@
     grid-template-areas:
       "n main year"
       ". stack stack"
-      ". span span";
+      ". duration duration";
     gap: var(--space-1) var(--space-2);
   }
 
@@ -166,21 +166,12 @@
     grid-area: main;
   }
 
-  .rowHighlights {
-  display: block;
-  margin-top: 6px;
-  max-width: 64ch;
-  font: 400 11px/1.6 var(--font-mono);
-  letter-spacing: 0.03em;
-  color: var(--muted);
-}
-
-.rowStack {
+  .rowStack {
     grid-area: stack;
   }
 
   .rowSpan {
-    grid-area: span;
+    grid-area: duration;
     margin-top: var(--space-1);
   }
 

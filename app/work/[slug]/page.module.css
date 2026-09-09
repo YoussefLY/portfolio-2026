@@ -255,7 +255,9 @@
 
 .pains {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* One column per pain point: a fixed 3 leaves an empty cell painted in the
+     container's own background on studies that only have two. */
+  grid-template-columns: repeat(var(--pain-cols, 3), minmax(0, 1fr));
   gap: 1px;
   margin-top: var(--space-5);
   background: var(--case-accent-hair);

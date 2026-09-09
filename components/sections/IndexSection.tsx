@@ -71,8 +71,8 @@ export function IndexSection() {
             const content = (
               <>
                 <span className={styles.cardTop}>
-                  <span className={styles.cardN}>{item.n}</span>
-                  <span className={styles.cardYear}>{item.year}</span>
+                  <span>{item.n}</span>
+                  <span>{item.year}</span>
                 </span>
                 <span className={styles.cardTitle}>{item.title}</span>
                 <span className={styles.cardBlurb}>{item.blurb}</span>
@@ -105,7 +105,6 @@ export function IndexSection() {
           })}
         </div>
       </section>
-
     </section>
   );
 }

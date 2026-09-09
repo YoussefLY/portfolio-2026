@@ -187,7 +187,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   ))}
                 </div>
                 {study.painPoints && (
-                  <div className={styles.pains}>
+                  <div
+                    className={styles.pains}
+                    style={{ "--pain-cols": study.painPoints.length } as React.CSSProperties}
+                  >
                     {study.painPoints.map((pain, i) => (
                       <div className={styles.pain} key={pain.label}>
                         <span className={styles.painN}>{String(i + 1).padStart(2, "0")}</span>

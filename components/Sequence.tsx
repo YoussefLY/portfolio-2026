@@ -13,11 +13,17 @@ import { MAIN_PAGES, type MainPageHref } from "@/lib/pages";
  * gap between parse and this script; SequenceScroll clears it too, as a safety net.
  */
 function jumpScript(id: string) {
-  return `(function(){try{var n=performance.getEntriesByType("navigation")[0];
-var m=document.currentScript.parentNode;
-if(!n||n.type==="navigate"){var e=document.getElementById(${JSON.stringify(id)}),t=0;
-while(e){t+=e.offsetTop;e=e.offsetParent}if(t)window.scrollTo(0,t)}
-m.removeAttribute("data-jump-pending")}catch(_){}})()`;
+  return `(function(){try{var m=document.currentScript.parentNode;
+m.removeAttribute("data-jump-pending");
+/* React re-runs this element on a client navigation, which would stamp on a restored
+   scroll position. The flag lives on the document, so only the parse-time run scrolls. */
+if(window.__seqJumped)return;
+window.__seqJumped=1;
+var n=performance.getEntriesByType("navigation")[0];
+if(n&&n.type!=="navigate")return;
+var e=document.getElementById(${JSON.stringify(id)}),t=0;
+while(e){t+=e.offsetTop;e=e.offsetParent}
+if(t)window.scrollTo(0,t)}catch(_){}})()`;
 }
 
 /**
@@ -29,12 +35,13 @@ export function Sequence({ initial }: { initial: MainPageHref }) {
 
   return (
     <main className="main" data-jump-pending={landing ? "" : undefined}>
+      {/* Fixed to the viewport edge, so it renders first purely to sit early in the tab order. */}
+      <PageIndicator />
       <IndexSection />
       <WorkSection />
       <AboutSection />
       {landing && <script dangerouslySetInnerHTML={{ __html: jumpScript(landing.id) }} />}
       <SequenceScroll initial={initial} />
-      <PageIndicator />
     </main>
   );
 }

@@ -1,20 +1,24 @@
 .rail {
   position: fixed;
-  right: 16px;
+  right: 4px;
   top: 50%;
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 2px;
   transform: translateY(-50%);
 }
 
+/* Padding, not size: the tick keeps its hairline look while the target clears the
+   24x24 minimum. The rail's `right` compensates so the ticks sit where they did. */
 .item {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  min-height: 20px;
+  min-height: 24px;
+  min-width: 24px;
+  padding: 6px 12px;
   text-decoration: none;
   color: var(--muted);
 }
@@ -58,6 +62,14 @@
   }
 }
 
+.item:focus-visible .label {
+  opacity: 1;
+}
+
+.item:focus-visible .tick {
+  background: var(--ink);
+}
+
 :global(html[data-page="01"]) .item[data-n="01"],
 :global(html[data-page="02"]) .item[data-n="02"],
 :global(html[data-page="03"]) .item[data-n="03"] {
@@ -79,8 +91,8 @@
 
 @media (max-width: 860px) {
   .rail {
-    right: 10px;
-    gap: 12px;
+    right: 0;
+    gap: 2px;
   }
 
   .label {

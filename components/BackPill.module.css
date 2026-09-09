@@ -15,16 +15,22 @@
   text-decoration: none;
   box-shadow: 0 8px 30px rgba(17, 17, 16, 0.08);
   opacity: 0;
+  /* Not just opacity: without this the pill stays in the tab order, so the first Tab
+     on a case study lands on a link nobody can see. */
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(-8px);
   transition: opacity var(--dur-med) var(--ease), transform var(--dur-med) var(--ease),
-    background var(--dur) var(--ease), color var(--dur) var(--ease);
+    visibility 0s linear var(--dur-med), background var(--dur) var(--ease),
+    color var(--dur) var(--ease);
 }
 
 .pill[data-visible] {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+  transition-delay: 0s;
 }
 
 @media (hover: hover) {

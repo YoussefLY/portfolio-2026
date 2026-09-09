@@ -3,9 +3,10 @@
 import { useRef, type ReactNode } from "react";
 import { FADE_FROM, FADE_TO, MOTION, gsap, isAboveRevealLine, useGSAP } from "@/lib/gsap-scroll";
 
-const QUOTE = '[data-reveal="quote"]';
+const ITEMS = "[data-reveal]";
 
-export function QuoteCtaReveal({ children }: { children: ReactNode }) {
+/** Fades in each `[data-reveal]` descendant as it scrolls into view. */
+export function RevealGroup({ children }: { children: ReactNode }) {
   const scope = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -18,31 +19,33 @@ export function QuoteCtaReveal({ children }: { children: ReactNode }) {
           noPreference: "(prefers-reduced-motion: no-preference)",
         },
         (context) => {
+          const root = scope.current;
+          if (!root) return;
+
+          const items = gsap.utils.toArray<HTMLElement>(ITEMS, root);
+          if (items.length === 0) return;
+
           if (context.conditions?.reduceMotion) {
-            gsap.set(QUOTE, { ...FADE_TO });
+            gsap.set(items, { ...FADE_TO });
             return;
           }
 
-          const quote = scope.current?.querySelector<HTMLElement>(QUOTE);
-
-          const reveal = (el: HTMLElement) => {
-            if (isAboveRevealLine(el)) {
-              gsap.set(el, { ...FADE_TO });
+          items.forEach((item) => {
+            if (isAboveRevealLine(item)) {
+              gsap.set(item, { ...FADE_TO });
               return;
             }
 
-            gsap.fromTo(el, { ...FADE_FROM }, {
+            gsap.fromTo(item, { ...FADE_FROM }, {
               ...FADE_TO,
               ...MOTION,
               scrollTrigger: {
-                trigger: el,
+                trigger: item,
                 start: "top 82%",
                 once: true,
               },
             });
-          };
-
-          if (quote) reveal(quote);
+          });
         },
         scope,
       );

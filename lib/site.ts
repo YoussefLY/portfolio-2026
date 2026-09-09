@@ -7,6 +7,7 @@ export const CONTACT = {
   email: "hello@labrahmi.dev",
   github: "https://github.com/Labrahmi",
   linkedin: "https://linkedin.com/in/labrahmiy",
+  upwork: "https://www.upwork.com/freelancers/labrahmi",
 } as const;
 
 export function getSiteUrl() {

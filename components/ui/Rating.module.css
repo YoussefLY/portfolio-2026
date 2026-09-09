@@ -1,0 +1,48 @@
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars {
+  position: relative;
+  display: inline-flex;
+  line-height: 0;
+}
+
+.row {
+  display: flex;
+  gap: 2px;
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.fill .row {
+  width: max-content;
+}
+
+.star {
+  display: block;
+  width: 13px;
+  height: 13px;
+}
+
+.empty {
+  fill: var(--border);
+}
+
+.full {
+  fill: var(--ink);
+}
+
+.score {
+  font: 500 12px/1 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}

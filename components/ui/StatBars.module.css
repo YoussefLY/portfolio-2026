@@ -1,0 +1,41 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 78px 1fr 22px;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.label {
+  font: 400 10px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.track {
+  display: block;
+  height: 5px;
+  overflow: hidden;
+  background: var(--border-faint);
+}
+
+.fill {
+  display: block;
+  height: 5px;
+  transform-origin: left center;
+  background: var(--ink);
+}
+
+.count {
+  font: 400 10px/1 var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  text-align: right;
+}

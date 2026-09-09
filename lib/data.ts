@@ -147,7 +147,7 @@ export const projects: Project[] = [
 export const featured = projects.filter((project) => project.featured);
 
 export const now = [
-  "Building an SMS lead-qualification agent with structured CRM writes",
+  "Building a multi-tenant B2B SaaS on an agent architecture for an EU software publisher",
   "Reading: Designing Data-Intensive Applications, second pass",
   "Open to contracts from October 2026",
 ];
@@ -160,12 +160,201 @@ export const uses = [
 
 export const education = [
   {
-    school: "42 Network — 1337 Coding School",
-    detail: "Computer engineering · 2022—2024",
+    term: "1337 Coding School — 42 Network",
+    detail: "Software engineering · Sep 2022 — present",
+    note: "Common core completed Nov 2024 · 2,720 validated hours",
   },
   {
-    school: "AEU University",
-    detail: "BSc Information Technology · 2020—2023",
+    term: "Université Abdelmalek Essaâdi",
+    detail: "Licence Professionnelle, Informatique de Gestion · 2022—2023",
+    note: "Mention Assez Bien",
+  },
+  {
+    term: "BTS — Développement des Systèmes d'Information",
+    detail: "Laayoune, Morocco · 2020—2022",
+    note: "Mention Assez Bien",
+  },
+];
+
+export const languages = [
+  { term: "Arabic", detail: "Native" },
+  { term: "French", detail: "B2" },
+  { term: "English", detail: "B2" },
+];
+
+export type Role = {
+  company: string;
+  position: string;
+  /** Formatted engagement window. */
+  period: string;
+  location: string;
+  /** Named end client, where the work was delivered through an employer. */
+  client?: string;
+  /** Still running. */
+  current?: boolean;
+  highlights: string[];
+};
+
+/** Professional history, newest first. */
+export const experience: Role[] = [
+  {
+    company: "Upwork",
+    position: "Full-stack engineer, freelance",
+    period: "Aug 2025 — present",
+    location: "Remote",
+    current: true,
+    highlights: [
+      "Multi-tenant B2B SaaS on an agent architecture for an EU software publisher: strict tenant isolation with role-based permissions, an agent layer orchestrating long asynchronous runs, and a registry of executable actions carrying permissions and reversibility.",
+      "A graded autonomy policy engine over that registry — dry-run previews, kill switch, per-run cost caps and full execution auditability, GDPR-compliant on EU hosting.",
+      "Multi-tenant fleet management SaaS for the transportation sector, built to scale across tenant companies.",
+      "Retrieval-augmented generation and a custom Model Context Protocol integration, both rated five stars by clients.",
+      "Full-stack procurement ERP with vendor management and purchase workflow automation, plus an AI content platform for thumbnail optimization.",
+    ],
+  },
+  {
+    company: "LYSI",
+    position: "Integration developer",
+    period: "Feb 2026 — Jul 2026",
+    location: "Rabat, Morocco",
+    client: "Orderful, San Francisco",
+    highlights: [
+      "Designed and maintained B2B data integration pipelines covering the full order lifecycle for more than 50 retail trading partners.",
+      "Diagnosed and resolved integration compliance failures across live client transaction flows.",
+      "Built multi-hop lookup chains and dynamic field mapping between the integration platform and Oracle NetSuite.",
+    ],
+  },
+  {
+    company: "Carey App",
+    position: "Chief technology officer",
+    period: "May 2025 — Dec 2025",
+    location: "Morocco",
+    highlights: ["Owned product development end to end for a Moroccan car rental startup."],
+  },
+  {
+    company: "1337 Coding School",
+    position: "Full-stack developer",
+    period: "Nov 2024 — Apr 2025",
+    location: "Tétouan, Morocco",
+    highlights: [
+      "Delivered client-facing platforms for two large Moroccan corporates, OCP Group and TAQA Morocco.",
+      "OCP Group procurement platform: Next.js, TypeScript and Tailwind front end with multi-language support, plus a real-time chat module and notification system over WebSocket.",
+      "ANOMALERT for TAQA Morocco: anomaly management with centralized tracking, criticality assessment and AI-assisted criticality suggestions, on a Docker and Nginx microservices architecture.",
+      "Worked cross-functionally with backend, AI and DevOps teams.",
+    ],
+  },
+  {
+    company: "London Academy",
+    position: "Software engineer",
+    period: "Apr 2024 — Nov 2024",
+    location: "Casablanca, Morocco",
+    highlights: [
+      "Canteen management system: cross-platform Electron desktop app on Node.js, Express and MongoDB with secure authentication, deployed across campus.",
+      "Led a team of three building an IoT-based smart attendance system with a web application.",
+      "Automated ID badge generation and wrote Python and Bash tooling for data handling and administrative processes.",
+      "Deployed and maintained Samsung Knox device management across more than 500 institutional devices on two campuses.",
+    ],
+  },
+];
+
+export type CapabilityGroup = { area: string; items: string[] };
+
+export const capabilities: CapabilityGroup[] = [
+  {
+    area: "AI & agent engineering",
+    items: [
+      "Production LLM features",
+      "Retrieval-augmented generation",
+      "Model Context Protocol integrations",
+      "Agent architectures with action registries",
+      "Autonomy policies",
+      "Dry-run previews",
+      "Cost caps",
+      "Auditability",
+    ],
+  },
+  {
+    area: "Frontend",
+    items: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vanilla JavaScript single-page apps",
+      "Real-time interfaces over WebSocket",
+      "Internationalization",
+    ],
+  },
+  {
+    area: "Backend",
+    items: ["Node.js", "Express", "Nest.js", "FastAPI", "REST API design", "WebSocket servers", "Microservices"],
+  },
+  {
+    area: "Data",
+    items: ["PostgreSQL", "MongoDB", "Redis", "Supabase", "MariaDB"],
+  },
+  {
+    area: "Infrastructure",
+    items: ["Docker", "Docker Compose", "Nginx", "CI/CD", "Git", "AWS", "Azure", "Linux administration", "Networking"],
+  },
+  {
+    area: "Systems",
+    items: [
+      "C",
+      "C++",
+      "Python",
+      "Bash",
+      "Socket programming",
+      "Non-blocking I/O",
+      "File-descriptor multiplexing",
+      "Concurrency",
+    ],
+  },
+  {
+    area: "Platform & integration",
+    items: [
+      "Multi-tenant architecture with tenant isolation",
+      "Role-based permissions",
+      "GDPR-compliant design",
+      "EU data residency",
+      "Continuous deployment",
+      "X12 EDI",
+      "Oracle NetSuite",
+      "Multi-hop lookup chains",
+    ],
+  },
+];
+
+export type SystemsProject = { name: string; blurb: string; tech: string[]; team?: boolean };
+
+/** 42 common-core work, kept as evidence for the systems claims above. */
+export const systemsProjects: SystemsProject[] = [
+  {
+    name: "transcendence",
+    blurb:
+      "Real-time multiplayer Pong tournament platform, built from scratch as a single-page app with WebSocket game-state synchronization.",
+    tech: ["Vanilla JavaScript", "WebSocket"],
+  },
+  {
+    name: "webserv",
+    blurb: "HTTP server in C++ — socket programming, non-blocking I/O and file-descriptor multiplexing.",
+    tech: ["C++", "Sockets", "CGI"],
+    team: true,
+  },
+  {
+    name: "Inception",
+    blurb:
+      "Containerized multi-service infrastructure orchestrated through Docker Compose, with a custom image per service.",
+    tech: ["Docker Compose", "Nginx", "MariaDB"],
+  },
+  {
+    name: "minishell",
+    blurb: "Unix shell in C, with parsing, pipes, redirections, signal handling and builtin commands.",
+    tech: ["C"],
+  },
+  {
+    name: "cub3d",
+    blurb: "Raycasting 3D rendering engine in C, with hand-rolled pixel work.",
+    tech: ["C", "MLX"],
   },
 ];
 
@@ -178,21 +367,127 @@ export const stackByProjects = [
   { label: "C / C++", percent: 40, count: 2 },
 ];
 
-export const contractHistory = [
-  { title: "Senior Software Engineer", barLeft: 0, barWidth: 70, rating: "—" },
-  { title: "AI agent dashboard configuration", barLeft: 10, barWidth: 40, rating: "—" },
-  { title: "Full-Stack AI Agent Integration (SMS + CRM)", barLeft: 30, barWidth: 20, rating: "—" },
-  { title: "Rebranding & RAG Integration", barLeft: 10, barWidth: 20, rating: "5.0" },
-  { title: "Custom MCP Integration", barLeft: 0, barWidth: 20, rating: "5.0" },
+export type ClientReview = {
+  /** Contract title, as published on Upwork. */
+  title: string;
+  /** Client score out of 5. */
+  score: number;
+  /** Contract window. */
+  period: string;
+  /** The client's own words, verbatim. */
+  quote: string;
+  /** My public reply, where the contract has one. */
+  response?: string;
+  /** Endorsement tags the client selected. */
+  endorsements: string[];
+  /** How the contract was billed and how long it ran. */
+  meta: string[];
+};
+
+/** Published feedback from completed contracts, newest first. */
+export const clientReviews: ClientReview[] = [
+  {
+    title: "Rebranding & RAG Integration",
+    score: 5,
+    period: "Dec 2, 2025 — Jan 11, 2026",
+    quote:
+      "Youssef is an exceptional full-stack developer. He grasps requirements quickly, asks the right clarifying questions, and turns ideas into polished, reliable solutions with minimal back-and-forth.",
+    endorsements: [
+      "Reliable",
+      "Collaborative",
+      "Committed to Quality",
+      "Solution Oriented",
+      "Clear Communicator",
+    ],
+    meta: ["Fixed price", "6 weeks"],
+  },
+  {
+    title: "Developer Needed for Custom MCP Integration",
+    score: 5,
+    period: "Nov 26, 2025 — Dec 16, 2025",
+    quote:
+      "Youssef is super talented - easy to work with, always understands the requirements clearly, and communicates professionally. Highly recommend!",
+    response:
+      "It was a pleasure working with the client and her team. They communicated clearly and were highly collaborative throughout the project.",
+    endorsements: ["Collaborative", "Committed to Quality", "Clear Communicator", "Professional"],
+    meta: ["Hourly", "3 weeks"],
+  },
+  {
+    title: "DSpace 5.8 Backup Restoration in Docker",
+    score: 5,
+    period: "Sep 29, 2025 — Oct 21, 2025",
+    quote:
+      "Project objectives were achieved. He was a clear, communicative and nice to work with. I would definitely contract Youssef again.",
+    endorsements: ["Clear Communicator", "Collaborative"],
+    meta: ["Hourly", "3 weeks"],
+  },
 ];
 
-export const contractMonths = ["NOV", "DEC", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG"];
-
-export const testimonial = {
-  quote:
-    "He grasps requirements quickly, asks the right clarifying questions, and turns ideas into polished, reliable solutions with minimal back-and-forth.",
-  attribution: "Client · Rebranding & RAG integration · 5.0",
+export type AboutTopic = {
+  slug: string;
+  /** Position in the About series. */
+  n: string;
+  /** Row label on the About index, and the browser title. */
+  title: string;
+  /** Headline on the topic's own page. */
+  heading: string;
+  /** Standfirst under that headline. */
+  dek: string;
+  /** The one line the About index gets to make its case. */
+  summary: string;
+  /** Right-hand figure on the index row. */
+  stat: string;
+  /** Right-hand kicker on the topic page head. */
+  eyebrow: string;
 };
+
+/** The About page keeps the summary; each of these carries the detail. */
+export const aboutTopics: AboutTopic[] = [
+  {
+    slug: "experience",
+    n: "01",
+    title: "Experience",
+    heading: "Five roles since 2024, mostly overlapping.",
+    dek: "Freelance contracts alongside a CTO seat and an integration desk, plus client-facing platforms for OCP Group and TAQA Morocco.",
+    summary: "Freelance, CTO, integration developer, and client platforms for two large Moroccan corporates.",
+    stat: "5 roles",
+    eyebrow: "2024 — present",
+  },
+  {
+    slug: "capabilities",
+    n: "02",
+    title: "Capabilities",
+    heading: "Seven areas, from agent architecture down to socket programming.",
+    dek: "What I reach for, grouped by where it sits in the stack, with a count of how often each one has actually shipped.",
+    summary: "Agent engineering, frontend, backend, data, infrastructure, systems, platform and integration.",
+    stat: "7 areas",
+    eyebrow: "Shipped, not skimmed",
+  },
+  {
+    slug: "systems",
+    n: "03",
+    title: "Systems fundamentals",
+    heading: "The 42 common core, written in C and C++.",
+    dek: "An HTTP server, a Unix shell, a raycasting engine, a containerized infrastructure and a real-time multiplayer platform.",
+    summary: "webserv, minishell, cub3d, Inception and transcendence — where the systems claims come from.",
+    stat: "5 projects",
+    eyebrow: "2,720 validated hours",
+  },
+  {
+    slug: "feedback",
+    n: "04",
+    title: "Client feedback",
+    heading: "Eleven contracts, a hundred per cent job success.",
+    dek: "Published reviews from completed contracts, as the clients left them — score, endorsements and all.",
+    summary: "What clients wrote when the contract closed, with the endorsements they picked.",
+    stat: "3 published · 5.0",
+    eyebrow: "11 contracts",
+  },
+];
+
+export function getAboutTopic(slug: string) {
+  return aboutTopics.find((topic) => topic.slug === slug);
+}
 
 export type CaseStudy = {
   slug: string;

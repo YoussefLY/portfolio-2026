@@ -1,9 +1,11 @@
-import { BarGrow } from "@/components/BarGrow";
 import { Byline } from "@/components/Byline";
 import { PageBreak } from "@/components/PageBreak";
 import { PageHeader } from "@/components/PageHeader";
-import { QuoteCtaReveal } from "@/components/QuoteCtaReveal";
-import { education, now, stackByProjects, contractHistory, contractMonths, testimonial, uses } from "@/lib/data";
+import { DefinitionList } from "@/components/ui/DefinitionList";
+import { FactList } from "@/components/ui/FactList";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { TopicIndex } from "@/components/ui/TopicIndex";
+import { aboutTopics, education, languages, now, uses } from "@/lib/data";
 import styles from "./About.module.css";
 
 export function AboutSection() {
@@ -32,112 +34,44 @@ export function AboutSection() {
             don&rsquo;t feel like a phone tree.
           </p>
           <p>
+            Right now that means a multi-tenant B2B SaaS built on an agent architecture — an action registry
+            carrying permissions and reversibility, graded autonomy, dry-run previews and per-run cost caps, so
+            the thing can be trusted to act on its own.
+          </p>
+          <p>
             I work in English, Arabic and French, and I explain technical decisions in whichever one you prefer
             — in plain terms, not architecture astronomy.
           </p>
         </div>
+
         <div className={styles.side}>
-          <div className="section-head">
-            <span className="kicker">Education</span>
-          </div>
-          {education.map((entry) => (
-            <div className={styles.eduEntry} key={entry.school}>
-              <div className={styles.eduSchool}>{entry.school}</div>
-              <div className={styles.eduDetail}>{entry.detail}</div>
-            </div>
-          ))}
-          <div className={`section-head ${styles.stackHead}`}>
-            <span className="kicker">Stack, by projects shipped</span>
-          </div>
-          <BarGrow>
-            <div className={styles.stackList} data-bars="stack">
-              {stackByProjects.map((item) => (
-                <div className={styles.stackRow} key={item.label}>
-                  <span className={styles.stackLabel}>{item.label}</span>
-                  <span className={styles.stackTrack}>
-                    <span className={styles.stackFill} data-bar style={{ width: `${item.percent}%` }} />
-                  </span>
-                  <span className={styles.stackCount}>{item.count}</span>
-                </div>
-              ))}
-            </div>
-          </BarGrow>
+          <section className={styles.sideBlock} aria-labelledby="education-title">
+            <SectionHeading id="education-title" title="Education" />
+            <DefinitionList entries={education} />
+          </section>
+
+          <section className={styles.sideBlock} aria-labelledby="languages-title">
+            <SectionHeading id="languages-title" title="Languages" />
+            <DefinitionList entries={languages} layout="inline" />
+          </section>
         </div>
       </div>
 
       <div className={styles.nowUses}>
         <section aria-labelledby="now-title">
-          <div className="section-head">
-            <h2 id="now-title" className="kicker">
-              Now
-            </h2>
-            <span className="kicker">Sep 2026</span>
-          </div>
-          <ul className={styles.plainList}>
-            {now.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+          <SectionHeading id="now-title" title="Now" aside="Sep 2026" />
+          <FactList items={now} />
         </section>
         <section aria-labelledby="uses-title">
-          <div className="section-head">
-            <h2 id="uses-title" className="kicker">
-              Uses
-            </h2>
-          </div>
-          <ul className={styles.plainList}>
-            {uses.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
+          <SectionHeading id="uses-title" title="Uses" />
+          <FactList items={uses} />
         </section>
       </div>
 
-      <section className={styles.contracts} aria-labelledby="contracts-title">
-        <div className="section-head">
-          <h2 id="contracts-title" className="kicker">
-            Contracts, last 10 months
-          </h2>
-          <span className="kicker">11 total · 100% job success</span>
-        </div>
-        <BarGrow>
-          <div className={styles.contractsTable} data-bars="table">
-            <div className={styles.contractsCols}>
-              <span />
-              <span className={styles.months}>
-                {contractMonths.map((m) => (
-                  <span key={m}>{m}</span>
-                ))}
-              </span>
-              <span className={styles.ratingHead}>RATING</span>
-            </div>
-            {contractHistory.map((entry) => (
-              <div className={styles.contractRow} key={entry.title}>
-                <span className={styles.contractTitle}>{entry.title}</span>
-                <span className={styles.barTrack}>
-                  <span
-                    className={styles.barFill}
-                    data-bar
-                    style={{ left: `${entry.barLeft}%`, width: `${entry.barWidth}%` }}
-                  />
-                </span>
-                <span className={entry.rating === "—" ? styles.rating : `${styles.rating} ${styles.ratingScored}`}>
-                  {entry.rating}
-                </span>
-              </div>
-            ))}
-          </div>
-        </BarGrow>
-        <p className="note">Overlapping bars = concurrent contracts</p>
+      <section className={styles.block} aria-labelledby="detail-title">
+        <SectionHeading id="detail-title" title="In detail" aside="Four pages" />
+        <TopicIndex topics={aboutTopics} base="/about" />
       </section>
-
-      <QuoteCtaReveal>
-        <blockquote className={styles.quote} data-reveal="quote">
-          <p className={styles.quoteText}>&ldquo;{testimonial.quote}&rdquo;</p>
-          <footer className={styles.quoteFooter}>{testimonial.attribution}</footer>
-        </blockquote>
-
-      </QuoteCtaReveal>
     </section>
   );
 }

@@ -1,0 +1,39 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.group {
+  min-width: 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-faint);
+}
+
+.area {
+  margin: 0;
+  font: 500 10px/1.4 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.items {
+  margin: var(--space-2) 0 0;
+  font: 400 14.5px/1.6 var(--font-sans);
+  color: var(--body-copy);
+  text-wrap: pretty;
+}
+
+/* An odd final group would leave a hole; let it run the full width instead. */
+.group:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}

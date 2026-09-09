@@ -1,0 +1,24 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.item {
+  position: relative;
+  padding-left: 16px;
+  font: 400 14.5px/1.55 var(--font-sans);
+  color: var(--body-copy);
+  text-wrap: pretty;
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 7px;
+  height: 1.5px;
+  background: var(--ink);
+}

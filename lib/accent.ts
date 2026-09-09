@@ -7,7 +7,7 @@ import sharp from "sharp";
 /**
  * The dominant colour of an image, computed at build time.
  * `hex` is the colour as it appears in the picture; `ink` is the same hue
- * pulled dark enough to sit on a white page as text or a bar.
+ * darkened until it actually passes WCAG AA against the page as small text.
  */
 export type ImageAccent = { hex: string; ink: string };
 
@@ -19,6 +19,14 @@ const HUE_BINS = 24;
 const MAX_LIGHTNESS = 0.9;
 const MIN_LIGHTNESS = 0.1;
 const MIN_SATURATION = 0.25;
+
+// `ink` is used for 9.5-11px labels, so it has to clear AA's 4.5:1 for small text.
+// Aim past it: exactly 4.5 leaves nothing for a future background tint.
+const PAGE_BG: [number, number, number] = [255, 255, 255];
+const MIN_CONTRAST = 5;
+// Below this the hue is gone and the accent is indistinguishable from --ink.
+const INK_MIN_LIGHTNESS = 0.14;
+const INK_MIN_SATURATION = 0.35;
 
 type Bin = { weight: number; r: number; g: number; b: number };
 
@@ -39,15 +47,48 @@ function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
   return [h * 60, s, l];
 }
 
-function hslToHex(h: number, s: number, l: number): string {
-  const k = (n: number) => (n + h / 30) % 12;
-  const a = s * Math.min(l, 1 - l);
-  const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-  return toHex(f(0) * 255, f(8) * 255, f(4) * 255);
-}
-
 function toHex(r: number, g: number, b: number): string {
   return `#${[r, g, b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`;
+}
+
+function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => (l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))) * 255;
+  return [f(0), f(8), f(4)];
+}
+
+/** WCAG 2.x relative luminance. */
+function luminance([r, g, b]: [number, number, number]): number {
+  const [rs, gs, bs] = [r, g, b].map((v) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+function contrast(a: [number, number, number], b: [number, number, number]): number {
+  const [x, y] = [luminance(a), luminance(b)];
+  return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+}
+
+/**
+ * Darken the hue until it clears MIN_CONTRAST against the page. HSL lightness is not
+ * perceptual — a saturated yellow and a saturated blue at the same L read very
+ * differently against white — so clamping L is a proxy that silently fails. This
+ * measures instead, and binary-searches the lightness that just passes.
+ */
+function readableInk(h: number, s: number, l: number): string {
+  const sat = Math.max(s, INK_MIN_SATURATION);
+  if (contrast(hslToRgb(h, sat, l), PAGE_BG) >= MIN_CONTRAST) return toHex(...hslToRgb(h, sat, l));
+  let lo = INK_MIN_LIGHTNESS;
+  let hi = l;
+  for (let i = 0; i < 24; i++) {
+    const mid = (lo + hi) / 2;
+    if (contrast(hslToRgb(h, sat, mid), PAGE_BG) >= MIN_CONTRAST) lo = mid;
+    else hi = mid;
+  }
+  return toHex(...hslToRgb(h, sat, lo));
 }
 
 /** Resolve a `/public`-relative URL (as used in `heroImage`) to a file on disk. */
@@ -105,6 +146,6 @@ export const getImageAccent = cache(async (src: string): Promise<ImageAccent | n
 
   return {
     hex: toHex(r, g, b),
-    ink: hslToHex(h, Math.max(s, 0.35), Math.min(l, 0.4)),
+    ink: readableInk(h, s, Math.min(l, 0.4)),
   };
 });

@@ -8,10 +8,10 @@ export function ProjectNotes({ projects }: { projects: readonly SystemsProject[]
     <div className={styles.grid}>
       {projects.map((project) => (
         <article className={styles.item} key={project.name} data-reveal="">
-          <h3 className={styles.name}>
+          <h2 className={styles.name}>
             {project.name}
             {project.team && <span className={styles.team}>Team</span>}
-          </h3>
+          </h2>
           <p className={styles.blurb}>{project.blurb}</p>
           <ChipList items={project.tech} label={`${project.name} stack`} />
         </article>

@@ -13,13 +13,28 @@ type Props = {
   title: ReactNode;
   dek?: ReactNode;
   size?: "title" | "display" | "hero";
+  /** "h2" for a chapter inside the continuous sequence, where the index owns the h1. */
+  as?: "h1" | "h2";
   /** Line-by-line reveal of the title. Off when the title takes part in a view transition. */
   reveal?: boolean;
+  /** Set when the surrounding section points at this heading with aria-labelledby. */
+  headingId?: string;
   /** Rendered in the right column under the dek — stats, secondary nav, etc. */
   children?: ReactNode;
 };
 
-export function PageHeader({ kicker, aside, back, title, dek, size = "title", reveal = true, children }: Props) {
+export function PageHeader({
+  kicker,
+  aside,
+  back,
+  title,
+  dek,
+  size = "title",
+  as: Heading = "h1",
+  headingId,
+  reveal = true,
+  children,
+}: Props) {
   return (
     <header className={styles.header}>
       <div className="page-head">
@@ -36,9 +51,9 @@ export function PageHeader({ kicker, aside, back, title, dek, size = "title", re
               {back.label}
             </Link>
           )}
-          <h1 className="page-title" data-size={size}>
+          <Heading className="page-title" data-size={size} id={headingId}>
             {reveal ? <LineReveal>{title}</LineReveal> : title}
-          </h1>
+          </Heading>
         </div>
         {(dek || children) && (
           <div className={styles.right}>

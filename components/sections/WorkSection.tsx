@@ -13,10 +13,12 @@ export function WorkSection() {
   const range = `${Math.min(...years)}—${Math.max(...years)}`;
 
   return (
-    <section className="page" id="page-work" data-page-href="/work">
+    <section className="page" id="page-work" data-page-href="/work" aria-labelledby="page-work-title">
       <PageBreak n="02" label="Work" />
       <Byline />
       <PageHeader
+        as="h2"
+        headingId="page-work-title"
         kicker="02 — Work"
         aside={`${projects.length} projects · ${range}`}
         title="Things I built and still stand behind."

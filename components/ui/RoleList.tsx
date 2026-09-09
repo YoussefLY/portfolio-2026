@@ -14,7 +14,7 @@ export function RoleList({ roles }: { roles: readonly Role[] }) {
           </div>
 
           <div className={styles.what}>
-            <h3 className={styles.position}>{role.position}</h3>
+            <h2 className={styles.position}>{role.position}</h2>
             <p className={styles.company}>
               {role.company}
               {role.client && <span className={styles.client}> · for {role.client}</span>}

@@ -121,10 +121,11 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 </span>
               </ViewTransition>
             </h1>
+            {/* aria-label is ignored on a generic div, so the list role has to be explicit. */}
             {study.stack && (
-              <div className={styles.chips} aria-label="Stack">
+              <div className={styles.chips} role="list" aria-label="Stack">
                 {study.stack.map((item) => (
-                  <span className={styles.chip} key={item}>
+                  <span className={styles.chip} role="listitem" key={item}>
                     {item}
                   </span>
                 ))}

@@ -10,10 +10,12 @@ import styles from "./About.module.css";
 
 export function AboutSection() {
   return (
-    <section className="page" id="page-about" data-page-href="/about">
+    <section className="page" id="page-about" data-page-href="/about" aria-labelledby="page-about-title">
       <PageBreak n="03" label="About" />
       <Byline />
       <PageHeader
+        as="h2"
+        headingId="page-about-title"
         kicker="03 — About"
         aside="Rabat, Morocco"
         title="Trained at 42. Sharpened on other people's deadlines."
@@ -46,12 +48,12 @@ export function AboutSection() {
 
         <div className={styles.side}>
           <section className={styles.sideBlock} aria-labelledby="education-title">
-            <SectionHeading id="education-title" title="Education" />
+            <SectionHeading as="h3" id="education-title" title="Education" />
             <DefinitionList entries={education} />
           </section>
 
           <section className={styles.sideBlock} aria-labelledby="languages-title">
-            <SectionHeading id="languages-title" title="Languages" />
+            <SectionHeading as="h3" id="languages-title" title="Languages" />
             <DefinitionList entries={languages} layout="inline" />
           </section>
         </div>
@@ -59,17 +61,17 @@ export function AboutSection() {
 
       <div className={styles.nowUses}>
         <section aria-labelledby="now-title">
-          <SectionHeading id="now-title" title="Now" aside="Sep 2026" />
+          <SectionHeading as="h3" id="now-title" title="Now" aside="Sep 2026" />
           <FactList items={now} />
         </section>
         <section aria-labelledby="uses-title">
-          <SectionHeading id="uses-title" title="Uses" />
+          <SectionHeading as="h3" id="uses-title" title="Uses" />
           <FactList items={uses} />
         </section>
       </div>
 
       <section className={styles.block} aria-labelledby="detail-title">
-        <SectionHeading id="detail-title" title="In detail" aside="Four pages" />
+        <SectionHeading as="h3" id="detail-title" title="In detail" aside="Four pages" />
         <TopicIndex topics={aboutTopics} base="/about" />
       </section>
     </section>

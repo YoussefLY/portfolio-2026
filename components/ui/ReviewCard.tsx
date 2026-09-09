@@ -11,7 +11,7 @@ export function ReviewCard({ review }: { review: ClientReview }) {
   return (
     <article className={styles.card} data-reveal="">
       <div className={styles.head}>
-        <h3 className={styles.title}>{review.title}</h3>
+        <h2 className={styles.title}>{review.title}</h2>
         <div className={styles.meta}>
           <Rating score={review.score} />
           <span className={styles.divider} aria-hidden="true" />

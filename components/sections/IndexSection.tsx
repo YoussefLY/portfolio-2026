@@ -6,9 +6,10 @@ import styles from "./Index.module.css";
 
 export function IndexSection() {
   return (
-    <section className="page" id="page-index" data-page-href="/">
+    <section className="page" id="page-index" data-page-href="/" aria-labelledby="page-index-title">
       <Byline />
       <PageHeader
+        headingId="page-index-title"
         kicker="01 — Index"
         aside="2026"
         size="hero"
